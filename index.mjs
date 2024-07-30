@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import userRoute from "./api/Routes/User.routes.js";
 import messageRouter from "./api/Routes/Message.Route.js";
 import { log } from "console";
+import cors from "cors";
 
 const app = express();
 const server = http.createServer(app);
@@ -31,8 +32,8 @@ app.use("/message", messageRouter);
 
 // Socket.io setup
 let connectedUser = {};
-let userID;
 io.on("connection", (socket) => {
+  let userID;
   console.log("a user connected");
   socket.on("addSocket", (data) => {
     userID = data.id;
@@ -58,6 +59,6 @@ io.on("connection", (socket) => {
 });
 
 // Start the server
-server.listen(port, () => {
+server.listen(port, "0.0.0.0", () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
